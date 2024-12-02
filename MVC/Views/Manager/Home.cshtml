@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "Admin Home";
+}
+
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+    <div class="container">
+        @Html.ActionLink("ADMIN PANEL", "Home", "Manager", new { area = "" }, new { @class = "navbar-brand" })
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+            <ul class="navbar-nav flex-grow-1">
+                <li>@Html.ActionLink("Manage Users", "Index", "Manager", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>@Html.ActionLink("Purchase Product", "Purchase", "Manager", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>@Html.ActionLink("Requested Quotations", "RequestedQuotations", "Manager", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>@Html.ActionLink("Successful Quotations", "SuccessfulQuotations", "Manager", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>@Html.ActionLink("Rejected Quotations", "RejectedQuotations", "Manager", new { area = "" }, new { @class = "nav-link" })</li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <h2>Welcome to the Admin Panel</h2>
+    <div class="row">
+        <!-- Quick Links or Dashboard Cards -->
+
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Manage Users</div>
+                <div class="card-body">
+                    <h5 class="card-title">Manage User Details</h5>
+                    <p class="card-text">View,manage and delete all registered user details here.</p>
+                    <a href="@Url.Action("index", "Manager")" class="btn btn-light">Go to Purchase</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-header">Purchase Products</div>
+                <div class="card-body">
+                    <h5 class="card-title">Manage product purchases</h5>
+                    <p class="card-text">View and manage all product purchase requests here.</p>
+                    <a href="@Url.Action("Purchase", "Manager")" class="btn btn-light">Go to Purchase</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Quotations</div>
+                <div class="card-body">
+                    <h5 class="card-title">View Requested Quotations</h5>
+                    <p class="card-text">Review all the Requested quotations for further actions.</p>
+                    <a href="@Url.Action("RequestedQuotations", "Manager")" class="btn btn-light">View Quotations</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card text-white bg-secondary mb-3">
+                <div class="card-header">Successful Quotations</div>
+                <div class="card-body">
+                    <h5 class="card-title">Manage Successful</h5>
+                    <p class="card-text">Review all the Successful quotations for further actions.</p>
+                    <a href="@Url.Action("SuccessfulQuotations", "Manager")" class="btn btn-light">Go to Purchase</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-header">Rejected Quotations</div>
+                <div class="card-body">
+                    <h5 class="card-title">Manage Rejected Quotations</h5>
+                    <p class="card-text">Review all the rejected quotations for further actions.</p>
+                    <a href="@Url.Action("RejectedQuotations", "Manager")" class="btn btn-light">Manage Rejected</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <p>
+        <a href="@Url.Action("Login", "Login")" class="btn btn-danger"><i class="fa fa-sign-out"></i> Logout</a>
+    </p>
+</div>
+
+@section scripts {
+    <script>
+        $(function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            if (successMessage != '')
+                alertify.success(successMessage);
+        });
+    </script>
+}

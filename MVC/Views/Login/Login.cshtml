@@ -1,0 +1,176 @@
+﻿@model MVC.Models.MVCLoginModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            TechFix
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+            </ul>
+        </div>
+    </div>
+</nav>
+<br />
+<br />
+<!-- Login Form -->
+<div class="login-page">
+    <div class="form-container">
+        <h2>Login to TechFix</h2>
+
+        @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email)
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email" })
+                @Html.ValidationMessageFor(m => m.Email)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password)
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+        }
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+        }
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval");
+}
+
+<style>
+    /* Centering the form properly */
+    body {
+        background: linear-gradient(135deg, #3a3a3a 0%, #1a1a1a 100%);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    /* Card-style container for the login form */
+    .form-container {
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px);
+        width: 100%;
+        max-width: 400px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Heading style */
+    h2 {
+        text-align: center;
+        color: #fff;
+        margin-bottom: 30px;
+    }
+
+    /* Form group styling */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    /* Input fields with animations */
+    .form-control {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: none;
+        border-bottom: 2px solid #fff;
+        color: #fff;
+        padding: 10px;
+        font-size: 16px;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-bottom: 2px solid #007bff; /* Blue color for focus */
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+    /* Blue-themed login button */
+    .btn-primary {
+        background-color: #007bff; /* Blue primary button */
+        border: none;
+        padding: 12px 0;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: 100%;
+        color: #fff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+    /* Alerts styling */
+    .alert {
+        margin-top: 20px;
+        text-align: center;
+        border-radius: 5px;
+        color: #fff;
+    }
+
+    .alert-success {
+        background-color: rgba(0, 123, 255, 0.8); /* Blue success alert */
+    }
+
+    .alert-danger {
+        background-color: rgba(220, 53, 69, 0.8);
+    }
+
+    /* Navbar brand style */
+    .navbar-brand {
+        font-size: 24px;
+        color: #fff;
+    }
+
+    /* Navbar link hover effect */
+    .nav-link {
+        color: #fff;
+    }
+
+        .nav-link:hover {
+            color: #007bff;
+        }
+
+    /* Button hover effects */
+    .btn-link {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+</style>

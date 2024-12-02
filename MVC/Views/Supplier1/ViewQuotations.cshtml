@@ -1,0 +1,120 @@
+﻿@model IEnumerable<MVC.Models.MVCPurchasesModel>
+
+@{
+    ViewBag.Title = "View Quotations";
+}
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark mb-4">
+    <div class="container">
+        @Html.ActionLink("SUPPLIER PANEL", "Home", "Supplier1", new { area = "" }, new { @class = "navbar-brand" })
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+            <ul class="navbar-nav flex-grow-1">
+                <li>@Html.ActionLink("Manage Products", "Index", "Supplier1", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>@Html.ActionLink("Manage Quotations", "ViewQuotations", "Supplier1", new { area = "" }, new { @class = "nav-link active" })</li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <h2 class="mb-4">Quotations to Approve</h2>
+
+    <!-- No Quotations Found Message -->
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning">
+            <strong>No quotations available for approval.</strong> Check back later or add new products.
+        </div>
+    }
+    else
+    {
+        <!-- Quotations Table -->
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Total Amount</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Productname)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PurchasedQuantity)</td>
+                            <td>@Html.DisplayFor(modelItem => item.TotalAmount)</td>
+                            <td>
+                                <a href="@Url.Action("ApprovePurchase", "Supplier1", new { purchaseId = item.PurchaseId })" class="btn btn-sm btn-success">
+                                    <i class="fa fa-check"></i> Approve
+                                </a>
+                                <a href="@Url.Action("RejectPurchase", "Supplier1", new { purchaseId = item.PurchaseId })" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-times"></i> Reject
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@section scripts{
+    <script>
+        $(function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            if (successMessage != '')
+                alertify.success(successMessage);
+        });
+
+        function Delete(id) {
+            alertify.confirm('Confirm Deletion', 'Are you sure you want to delete this record?',
+            function () {
+                window.location.href = '@Url.Action("Delete", "Supplier1")/' + id;
+            },
+            function () {
+                alertify.error('Deletion cancelled');
+            });
+        }
+    </script>
+}
+
+<!-- Custom Styles -->
+<style>
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+    .alert-warning {
+        background-color: #fffbdd;
+        border-color: #fff5cc;
+    }
+
+    /* Responsive Table */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+    }
+</style>

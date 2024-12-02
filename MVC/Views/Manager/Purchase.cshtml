@@ -1,0 +1,165 @@
+﻿@model IEnumerable<MVC.Models.MVCSupplier1Model>
+@{
+    ViewBag.Title = "Purchase Product";
+}
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+    <div class="container">
+        @Html.ActionLink("ADMIN PANEL", "Home", "Manager", new { area = "" }, new { @class = "navbar-brand" })
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+            <ul class="navbar-nav flex-grow-1">
+                <li>@Html.ActionLink("Manage Users", "Index", "Manager", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>@Html.ActionLink("Purchase Product", "Purchase", "Manager", new { area = "" }, new { @class = "nav-link active" })</li>
+                <li>@Html.ActionLink("Requested Quotations", "RequestedQuotations", "Manager", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>@Html.ActionLink("Successful Quotations", "SuccessfulQuotations", "Manager", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>@Html.ActionLink("Rejected Quotations", "RejectedQuotations", "Manager", new { area = "" }, new { @class = "nav-link" })</li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<br />
+
+<!-- Filter Form -->
+<div class="container mt-4">
+    <div class="card p-4 shadow-sm">
+        <h3 class="mb-4 text-center">Purchase Product</h3>
+        @using (Html.BeginForm("Purchase", "Manager", FormMethod.Get))
+        {
+            <div class="row mb-3">
+                <div class="col-md-6 offset-md-3">
+                    <div class="form-group">
+                        @Html.Label("Select Category", htmlAttributes: new { @class = "form-label" })
+                        @Html.DropDownList("category", new List<SelectListItem>
+                        {
+                            new SelectListItem { Text = "RAM", Value = "RAM"},
+                            new SelectListItem { Text = "Processors", Value = "Processors"},
+                            new SelectListItem { Text = "Graphics Cards", Value = "Graphics Cards"},
+                            new SelectListItem { Text = "Motherboards", Value = "Motherboards"},
+                            new SelectListItem { Text = "Power Supplies", Value = "Power Supplies"},
+                            new SelectListItem { Text = "Storage Devices", Value = "Storage Devices"},
+                            new SelectListItem { Text = "Cooling Systems", Value = "Cooling Systems"},
+                            new SelectListItem { Text = "Cases and Enclosures", Value = "Cases and Enclosures"},
+                            new SelectListItem { Text = "Keyboards", Value = "Keyboards"},
+                            new SelectListItem { Text = "Monitors", Value = "Monitors"}
+                            // Add more categories as needed
+                        }, "Select Category", new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-lg">Filter Products</button>
+            </div>
+        }
+    </div>
+</div>
+
+<br />
+
+<!-- Product Table -->
+<div class="container mt-4">
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Supplier</th>
+                        <th>Available Quantity</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Productname)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Username)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                            <td>$@Html.DisplayFor(modelItem => item.Price)</td>
+                            <td>
+                                @using (Html.BeginForm("BuyProduct", "Manager", FormMethod.Post))
+                                {
+                                    @Html.Hidden("ProductId", item.ProductId)
+                                    @Html.Hidden("AvailableQuantity", item.Quantity)
+                                    <div class="input-group">
+                                        <input type="number" name="QuantityToBuy" min="1" max="@item.Quantity" class="form-control" value="1" />
+                                        <button type="submit" class="btn btn-success ms-2"><i class="fa fa-shopping-cart"></i> Buy</button>
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning text-center mt-4">
+            No products available for the selected category.
+        </div>
+    }
+
+    @if (Session["TotalSpent"] != null)
+    {
+        <div class="alert alert-info text-center mt-4">
+            Total Amount Spent: $@Session["TotalSpent"]
+        </div>
+    }
+</div>
+
+<!-- Custom Styles -->
+<style>
+    .card {
+        border: none;
+        border-radius: 12px;
+    }
+
+    .table {
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .table thead {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .input-group {
+        max-width: 200px;
+        margin: auto;
+    }
+
+    .btn-primary, .btn-success {
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+
+        .btn-primary:hover, .btn-success:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+@section Scripts {
+    <script>
+        $(function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            if (successMessage != '') {
+                alertify.success(successMessage);
+            }
+        });
+    </script>
+}

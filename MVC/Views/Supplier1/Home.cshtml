@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "Supplier Home";
+}
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+    <div class="container">
+        @Html.ActionLink("SUPPLIER PANEL", "Home", "Supplier1", new { area = "" }, new { @class = "navbar-brand" })
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+            <ul class="navbar-nav flex-grow-1">
+                <li>@Html.ActionLink("Manage Products", "Index", "Supplier1", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>@Html.ActionLink("Manage Quotations", "ViewQuotations", "Supplier1", new { area = "" }, new { @class = "nav-link" })</li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Title Section -->
+<div class="container mt-5">
+    <h2>Welcome to the Supplier Panel</h2>
+    <div class="row">
+        <!-- Dashboard Cards -->
+
+        <div class="col-md-4">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-header">Manage Products</div>
+                <div class="card-body">
+                    <h5 class="card-title">View and Manage Products</h5>
+                    <p class="card-text">Manage the list of products you supply and update inventory details.</p>
+                    <a href="@Url.Action("Index", "Supplier1")" class="btn btn-light">Manage Products</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-header">Manage Quotations</div>
+                <div class="card-body">
+                    <h5 class="card-title">Review Quotations</h5>
+                    <p class="card-text">View all requested quotations and provide offers to customers.</p>
+                    <a href="@Url.Action("ViewQuotations", "Supplier1")" class="btn btn-light">View Quotations</a>
+                </div>
+            </div>
+        </div>
+
+
+    <br />
+    <p>
+        <a href="@Url.Action("Login", "Login")" class="btn btn-danger"><i class="fa fa-sign-out"></i> Logout</a>
+    </p>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            if (successMessage != '') {
+                alertify.success(successMessage);
+            }
+        });
+    </script>
+}

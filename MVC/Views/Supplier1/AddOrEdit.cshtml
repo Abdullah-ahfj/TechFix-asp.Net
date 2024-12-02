@@ -1,0 +1,164 @@
+﻿@model MVC.Models.MVCSupplier1Model
+@{
+    ViewBag.Title = "Add or Edit Product";
+}
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        @Html.ActionLink("SUPPLIER PANEL", "Home", "Supplier1", new { area = "" }, new { @class = "navbar-brand" })
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">@Html.ActionLink("Manage Products", "Index", "Supplier1", new { area = "" }, new { @class = "nav-link" })</li>
+                <li class="nav-item">@Html.ActionLink("Manage Quotations", "ViewQuotations", "Supplier1", new { area = "" }, new { @class = "nav-link" })</li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Form Container -->
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header bg-gradient-primary text-white">
+                    <h4 class="text-center mb-0">Add or Edit Product</h4>
+                </div>
+                <div class="card-body p-4">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.HiddenFor(model => model.ProductId)
+
+                        <!-- Product Name -->
+                        <div class="mb-4">
+                            @Html.LabelFor(model => model.Productname, "Product Name", new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Productname, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                            @Html.ValidationMessageFor(model => model.Productname, "", new { @class = "text-danger small" })
+                        </div>
+
+                        <!-- Username (Supplier) -->
+                        <div class="mb-4">
+                            @Html.LabelFor(model => model.Username, "Supplier", new { @class = "form-label" })
+                            @Html.DropDownListFor(model => model.Username, new List<SelectListItem>
+                            {
+                                new SelectListItem { Text = "Supplier1", Value = "supplier1" },
+                                new SelectListItem { Text = "Supplier2", Value = "supplier2" }
+                            }, "Select Supplier", new { @class = "form-select form-select-lg" })
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger small" })
+                        </div>
+
+                        <!-- Quantity -->
+                        <div class="mb-4">
+                            @Html.LabelFor(model => model.Quantity, "Quantity", new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                            @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger small" })
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-4">
+                            @Html.LabelFor(model => model.Description, "Product Description", new { @class = "form-label" })
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control form-control-lg", rows = 3 })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger small" })
+                        </div>
+
+                        <!-- Category -->
+                        <div class="mb-4">
+                            @Html.LabelFor(model => model.Category, "Category", new { @class = "form-label" })
+                            @Html.DropDownListFor(model => model.Category, new List<SelectListItem>
+                            {
+                                new SelectListItem { Text = "RAM", Value = "RAM" },
+                                new SelectListItem { Text = "Processors", Value = "Processors" },
+                                new SelectListItem { Text = "Graphics Cards", Value = "Graphics Cards" },
+                                new SelectListItem { Text = "Motherboards", Value = "Motherboards" },
+                                new SelectListItem { Text = "Power Supplies", Value = "Power Supplies" },
+                                new SelectListItem { Text = "Storage Devices", Value = "Storage Devices" },
+                                new SelectListItem { Text = "Cooling Systems", Value = "Cooling Systems" },
+                                new SelectListItem { Text = "Cases and Enclosures", Value = "Cases and Enclosures" },
+                                new SelectListItem { Text = "Keyboards", Value = "Keyboards" },
+                                new SelectListItem { Text = "Monitors", Value = "Monitors" }
+                            }, "Select Category", new { @class = "form-select form-select-lg" })
+                            @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger small" })
+                        </div>
+
+                        <!-- Price -->
+                        <div class="mb-4">
+                            @Html.LabelFor(model => model.Price, "Price", new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger small" })
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-lg btn-primary shadow-sm">Submit</button>
+                            <button type="reset" class="btn btn-lg btn-secondary shadow-sm">Reset</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Validation Script -->
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<!-- Custom Styling -->
+<style>
+    .form-label {
+        font-weight: 600;
+        color: #343a40;
+    }
+
+    .form-control-lg, .form-select-lg {
+        border-radius: 0.3rem;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+        transition: box-shadow 0.2s ease-in-out;
+    }
+
+        .form-control-lg:hover, .form-select-lg:hover {
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+        }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+    .card {
+        border-radius: 0.75rem;
+        border: none;
+    }
+
+    .card-header {
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        color: white;
+        border-top-left-radius: 0.75rem;
+        border-top-right-radius: 0.75rem;
+    }
+
+    .text-danger.small {
+        font-size: 0.875rem;
+    }
+</style>
